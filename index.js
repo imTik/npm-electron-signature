@@ -26,6 +26,7 @@ class Signature {
     this.mouseDown = false;
 
     this.strokeRecord = [];
+    this.onceRecord = [];
 
     // 创建/设置 画布
     this.canvas = document.createElement('canvas');
@@ -69,9 +70,10 @@ class Signature {
 
     this.canvas.addEventListener('touchstart', e => {
       this.ctx.beginPath();
+
       let { x, y } = this.getCoordinate(e);
       this.ctx.moveTo(x, y);
-      this.recordStroke({x, y});
+      this.recordOnce({x, y});
     });
 
     this.canvas.addEventListener('touchmove', e => {
@@ -79,21 +81,23 @@ class Signature {
       let { x, y } = this.getCoordinate(e);
       this.ctx.lineTo(x, y);
       this.ctx.stroke();
-      this.recordStroke({x, y});
+      this.recordOnce({x, y});
     });
 
     this.canvas.addEventListener('touchend', e => {
       this.ctx.closePath();
+      this.recordStroke();
     });
   }
 
   pcMouseEvent () {
     this.canvas.addEventListener('mousedown', e => {
       this.mouseDown = true;
+
       this.ctx.beginPath();
       let { x, y } = this.getCoordinate(e);
       this.ctx.moveTo(x, y);
-      this.recordStroke({x, y});
+      this.recordOnce({x, y});
     });
 
     this.canvas.addEventListener('mousemove', e => {
@@ -101,31 +105,43 @@ class Signature {
       let { x, y } = this.getCoordinate(e);
       this.ctx.lineTo(x, y);
       this.ctx.stroke();
-      this.recordStroke({x, y});
+      this.recordOnce({x, y});
     });
 
     this.canvas.addEventListener('mouseup', e => {
       this.mouseDown = false;
       this.ctx.closePath();
+      this.recordStroke();
     });
 
     this.canvas.addEventListener('mouseover', e => {
       this.mouseDown = false;
       this.ctx.closePath();
+      this.recordStroke();
     })
   }
 
   // 记录笔画
-  recordStroke (point) {
-    this.strokeRecord.push(point);
+  recordOnce (point) {
+    this.onceRecord.push(point);
+  };
+
+  recordStroke () {
+    this.strokeRecord.push(this.onceRecord);
+    this.onceRecord = [];
   }
 
   // 还原笔画
   reductionStroke () {
-    this.ctx.beginPath();
-    this.strokeRecord.forEach(item => this.ctx.lineTo(item.x, item.y));
-    this.ctx.stroke();
-    this.ctx.closePath();
+    this.strokeRecord.forEach(item => {
+      if (item.length > 0) {
+        this.ctx.beginPath();
+        item.forEach(point => this.ctx.lineTo(point.x, point.y));
+        this.ctx.stroke();
+        this.ctx.closePath();
+      }
+    });
+    
   }
 
   // 获取坐标
