@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://github.com/imTik/npm-electron-signature",
   "keywords": [
     "canvas",
     "电子签名",
