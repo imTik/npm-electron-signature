@@ -1,0 +1,16 @@
+{
+  "name": "electron-signature",
+  "version": "1.0.0",
+  "description": "PC/Mobile canvas 电子签名",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "canvas",
+    "电子签名",
+    "JS签名"
+  ],
+  "author": "Tik",
+  "license": "ISC"
+}
