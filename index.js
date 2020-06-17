@@ -43,9 +43,11 @@ class Signature {
     this.pcMouseEvent();
 
     window.addEventListener('resize', e => {
+      let pastImg = this.getImage();
       this.adapt();
-      this.initBg();
-      this.reductionStroke()
+      this.canvasChange(pastImg);
+      // this.initBg();
+      // this.reductionStroke()
     });
   }
 
@@ -161,6 +163,15 @@ class Signature {
     span.addEventListener('click', e => {
       this.cleanStroke();
     });
+  }
+
+  canvasChange (pastImg) {
+    let _img = new Image();
+    _img.src = pastImg;
+    _img.width = this.width;
+    _img.height = this.height;
+    this.ctx.drawImage(_img, 0, 0, this.width, this.height);
+    _img.onload = () => this.ctx.drawImage(_img, 0, 0, this.width, this.height);
   }
 
   cleanStroke () {
