@@ -1,6 +1,6 @@
 {
   "name": "electron-signature",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "PC/Mobile canvas 电子签名",
   "main": "index.js",
   "scripts": {

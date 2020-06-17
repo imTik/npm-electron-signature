@@ -46,14 +46,13 @@ class Signature {
       let pastImg = this.getImage();
       this.adapt();
       this.canvasChange(pastImg);
-      // this.initBg();
-      // this.reductionStroke()
     });
   }
 
   setLineStyle (width, color) {
     this.ctx.lineWidth = width;
     this.ctx.strokeStyle = color;
+    this.ctx.lineCap = 'round';
   }
 
   initBg () {
@@ -71,14 +70,15 @@ class Signature {
   mobileTouchEvent () {
 
     this.canvas.addEventListener('touchstart', e => {
-      this.ctx.beginPath();
 
+      this.ctx.beginPath();
       let { x, y } = this.getCoordinate(e);
       this.ctx.moveTo(x, y);
       this.recordOnce({x, y});
     });
 
     this.canvas.addEventListener('touchmove', e => {
+      
       e.preventDefault();
       let { x, y } = this.getCoordinate(e);
       this.ctx.lineTo(x, y);
@@ -128,6 +128,7 @@ class Signature {
     this.onceRecord.push(point);
   };
 
+  // 记录总笔画
   recordStroke () {
     this.strokeRecord.push(this.onceRecord);
     this.onceRecord = [];
@@ -143,7 +144,6 @@ class Signature {
         this.ctx.closePath();
       }
     });
-    
   }
 
   // 获取坐标
@@ -160,9 +160,7 @@ class Signature {
     span.innerHTML = '重签';
     span.style = 'position: absolute; color: #0071CE; right: 15px; bottom: 15px; font-size: 14px; cursor: pointer;'
     this.container.appendChild(span);
-    span.addEventListener('click', e => {
-      this.cleanStroke();
-    });
+    span.addEventListener('click', e => this.cleanStroke());
   }
 
   canvasChange (pastImg) {
@@ -185,7 +183,6 @@ class Signature {
     var imgURL = this.canvas.toDataURL(MIME_TYPE);
     return imgURL;
   }
-
 }
 
 export default Signature;
