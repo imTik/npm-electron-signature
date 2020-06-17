@@ -170,7 +170,6 @@ class Signature {
     _img.src = pastImg;
     _img.width = this.width;
     _img.height = this.height;
-    this.ctx.drawImage(_img, 0, 0, this.width, this.height);
     _img.onload = () => this.ctx.drawImage(_img, 0, 0, this.width, this.height);
   }
 
