@@ -149,9 +149,8 @@ class Signature {
   // 获取坐标
   getCoordinate (e) {
     let touch = e.targetTouches ? e.targetTouches[0] : e;
-    let scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
     let x = touch.pageX - this.container.offsetLeft;
-    let y = touch.pageY - this.container.offsetTop + scrollTop;
+    let y = touch.pageY - this.container.offsetTop;
     return { x, y };
   }
 
